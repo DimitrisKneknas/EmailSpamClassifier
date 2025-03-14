@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Email Spam Classifier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 2rem;
+            font-size: 2.5rem;
+        }
+
+        form {
+            display: inline-block;
+            margin-top: 1.5rem;
+        }
+
+        textarea {
+            width: 350px;
+            max-width: 600px;
+            height: 150px;
+            padding: 1rem;
+            font-size: 1rem;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            resize: none;
+            transition: border 0.3s ease;
+        }
+
+        textarea:focus {
+            border-color: #007bff;
+        }
+
+        .button-container {
+            margin-top: 1rem;
+        }
+
+        button {
+            color: white;
+            background-color: #007bff;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 1rem;
+            margin-left: 1rem;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .result h2 {
+            margin-top: 2rem;
+            font-size: 2rem;
+            display: none;
+        }
+
+        .result h2.spam {
+            color: red;
+        }
+
+        .result h2.not-spam {
+            color: green;
+        }
+
+        .loading {
+            display: none;
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            color: #007bff;
+        }
+
+        /* Add responsiveness */
+        @media (max-width: 600px) {
+            textarea {
+                width: 90%;
+            }
+
+            button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            a {
+                display: block;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Email Spam Classifier</h1>
+    <form id="emailForm" method="post" action="/predict">
+        <textarea name="content" id="emailContent" placeholder="Enter your email here" autocomplete="off" aria-label="Email Content"></textarea>
+        <div class="button-container">
+            <button type="submit" id="classifyBtn">Classify</button>
+            <a href="/">Reset</a>
+        </div>
+    </form>
+
+    <div class="loading" id="loading">Classifying...</div>
+
+    <div class="result" id="result">
+        <h2 id="spamResult" class="spam">Spam</h2>
+        <h2 id="notSpamResult" class="not-spam">Not Spam</h2>
+    </div>
+
+    <script>
+        const form = document.getElementById('emailForm');
+        const emailContent = document.getElementById('emailContent');
+        const classifyBtn = document.getElementById('classifyBtn');
+        const loading = document.getElementById('loading');
+        const result = document.getElementById('result');
+        const spamResult = document.getElementById('spamResult');
+        const notSpamResult = document.getElementById('notSpamResult');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Client-side validation for empty textarea
+            if (emailContent.value.trim() === '') {
+                alert('Please enter the email content.');
+                return;
+            }
+
+            // Disable button and show loading
+            classifyBtn.disabled = true;
+            loading.style.display = 'block';
+
+            // Simulate async behavior (replace with actual AJAX request)
+            setTimeout(function () {
+                // Simulate classification result (replace with real backend result)
+                const isSpam = Math.random() > 0.5; // Simulating spam detection
+
+                // Hide loading
+                loading.style.display = 'none';
+                classifyBtn.disabled = false;
+
+                // Display result
+                if (isSpam) {
+                    spamResult.style.display = 'block';
+                    notSpamResult.style.display = 'none';
+                } else {
+                    spamResult.style.display = 'none';
+                    notSpamResult.style.display = 'block';
+                }
+            }, 1500);
+        });
+    </script>
+
+</body>
+
+</html>
